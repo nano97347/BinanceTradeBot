@@ -2,15 +2,21 @@ from .BinanceAPIManager import BinanceAPIManager
 from .config import Config
 import schedule
 import time
-def main():
-    manager = BinanceAPIManager(Config())
-    print('output from main class')
+
+# https://docs.python.org/3/library/logging.html
+from .logger import Logger
 
 def job():
-    print("I'm working...")
+    print("I'm working from schedule")
 
-schedule.every().second.do(job)
+def main():
+    logger = Logger()
 
-while True:
-    schedule.run_pending()
-    time.sleep(1)
+    config = Config()
+    manager = BinanceAPIManager(config)
+    print('output from main class')
+    schedule.every().second.do(job)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
