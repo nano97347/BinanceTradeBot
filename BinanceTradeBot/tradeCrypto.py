@@ -1,21 +1,24 @@
-from .BinanceAPIManager import BinanceAPIManager
-from .config import Config
 import schedule
 import time
 
-# https://docs.python.org/3/library/logging.html
+from .BinanceAPIManager import BinanceAPIManager
+from .config import Config
+from .database import Database
 from .logger import Logger
+from .strategies import get_strategy
 
 def job():
     print("I'm working from schedule")
 
 def main():
-    logger = Logger()
-
-    config = Config()
-    manager = BinanceAPIManager(config)
     print('output from main class')
+    logger = Logger()
+    config = Config()
+    database = Database()
+    manager = BinanceAPIManager(config)
     schedule.every().second.do(job)
+
+    streategy = get_strategy()
 
     while True:
         schedule.run_pending()
